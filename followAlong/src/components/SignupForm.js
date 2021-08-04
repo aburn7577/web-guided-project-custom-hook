@@ -1,44 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
 import Button from "../theme/Button";
+import useForm from '../hook/useForm'
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1)
-  },
-  dense: {
-    marginTop: theme.spacing(2)
-  },
-  menu: {
-    width: 200
-  }
-}));
+const formValues = {
+  firstName: '',
+  lastName: '',
+  email: ''
+}
 
 export default function SignupForm() {
   const classes = useStyles();
-  const [firstName, setFirstName] = useState("");
-
-  const handleChanges = e => {
-    setFirstName(e.target.value);
-  };
+  const [value, handleChanges, clearForm] = useForm(formValues)
 
   const handleSubmit = e => {
     e.preventDefault();
-    alert(firstName);
+    alert(`${value.firstName} ${value.lastName} ${value.email}`);
   };
-
-  const clearForm = e => {
-    e.preventDefault();
-    setFirstName("");
-  };
-
   return (
     <div p={2} className="form">
       <form onSubmit={handleSubmit}>
@@ -49,7 +29,27 @@ export default function SignupForm() {
             label="First Name"
             className={classes.textField}
             name="firstName"
-            value={firstName}
+            value={value.firstName}
+            onChange={handleChanges}
+            margin="normal"
+            variant="outlined"
+          />
+          <TextField
+            id="outlined-name"
+            label="Last Name"
+            className={classes.textField}
+            name="lastName"
+            value={value.lastName}
+            onChange={handleChanges}
+            margin="normal"
+            variant="outlined"
+          />
+          <TextField
+            id="outlined-name"
+            label="email"
+            className={classes.textField}
+            name="email"
+            value={value.email}
             onChange={handleChanges}
             margin="normal"
             variant="outlined"
@@ -67,3 +67,20 @@ export default function SignupForm() {
     </div>
   );
 }
+
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1)
+  },
+  dense: {
+    marginTop: theme.spacing(2)
+  },
+  menu: {
+    width: 200
+  }
+}));
